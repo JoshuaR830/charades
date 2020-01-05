@@ -177,11 +177,11 @@ io.on('connection', function(socket) {
 });
 
 app.get('/charades', function(req, res) { 
-    res.sendFile(`${process.cwd()}/public/charades.html`);
+    res.sendFile(`${__dirname}/charades.html`);
 });
 
 app.get('/', function(req, res) { 
-    res.sendFile(`${process.cwd()}/public/charades.html`);
+    res.sendFile(`${__dirname}/charades.html`);
 });
 
 http.listen(8001, () => console.log('Listening on port 8001!'));
