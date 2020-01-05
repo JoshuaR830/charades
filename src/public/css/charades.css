@@ -1,0 +1,204 @@
+:root {
+    --card-color: #b680d1;
+    --accent-color: #9954d1;
+    --border-color: #7332a8;
+    --text-color: #ffffff;
+    --first-width: 1;
+    --second-width: 1;
+    --third-width: 2;
+    --score-height: 1;
+}
+
+body {
+    color: var(--text-color);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+}
+
+.content-box {
+    border-radius: 16px;
+    background-color: var(--card-color);
+}
+
+.card-container {
+    width: 800px;
+    height: 500px;
+    display: inline-block;
+    margin: 32px 0;
+    background-color: #4d4654;
+    overflow-x: hidden;
+}
+
+.controls {
+    text-align: center;
+    display: inline-block;
+    margin-bottom: 32px;
+    width: 800px;
+    padding: 20px 0;
+    height: 143px;
+    box-sizing: border-box;
+}
+
+#reveal-button {
+    display: none;
+}
+
+.score-container {
+    width: 800px;
+    height: 100px;
+    margin-top: 32px;
+    display: inline-block;
+}
+
+.highlight-word {
+    color: var(--border-color);
+}
+
+.player-container {
+    width: 800px;
+    display: inline-block;
+    margin-top: 32px;
+    background-color: var(--card-color);
+    overflow-x: hidden;
+}
+
+.score {
+    width: 120px;
+    height: 120px;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid var(--border-color);
+    display: inline-block;
+    text-align: center;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    font-size: 1em;
+}
+
+.score-text {
+    font-size: 2em;
+}
+
+.request-card {
+    background-color: purple;
+}
+
+.button {
+    width: 200px;
+    text-align: center;
+
+    border: 1px solid var(--border-color);
+    font-size: 3em;
+    background-color: var(--accent-color);
+    text-align: center;
+    display: inline-block; 
+
+    padding: 16px;
+    border-radius: 16px;
+}
+
+.category {
+    font-size: 60px;
+    padding: 20px;
+    line-height: 60px;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.first-player {
+    background-color: #d4af37;
+    border-color: #79641f;
+}
+
+.second-player {
+    background-color: #aaa9ad;
+    border-color: #656566;
+}
+
+.third-player {
+    background-color: #cd7f32;
+    border-color: #583716;
+}
+
+.first-place-container {
+    position: absolute;
+    background-color: #32527b;
+    border: 1px solid #19293d;
+    height: calc(calc(var(--score-height)*120px) + 200px);
+    width: calc(var(--first-width)*120px);
+    margin-left: -60px;
+}
+
+.second-place-container {
+    position: absolute;
+    background-color: #32527b;
+    border: 1px solid #19293d;
+    height: calc(calc(var(--score-height)*120px) + 120px);
+    width: calc(var(--second-width)*120px);
+    margin-left: calc(calc(var(--second-width)*-120px) - 60px);
+    margin-top: 80px;
+}
+
+.third-place-container {
+    position: absolute;
+    background-color: #32527b;
+    border: 1px solid #19293d;
+    height: calc(calc(var(--score-height)*120px) + 40px);
+    width: calc(var(--third-width)*120px);
+    margin-left: 60px;
+    margin-top: 160px;
+}
+
+.top-three-container {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    margin-top: 80px;
+    height: 360px;
+}
+
+.other-player-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.score-board {
+    min-width: 100%;
+}
+
+.podeum {
+    min-width: 100%;
+}
+
+.winner {
+    width: 100%;
+    display: none;
+}
+
+
+
+@media only screen and (min-width: 1250px){
+
+    body {
+        zoom: 0.8;
+    }
+    .card-container {
+        width: 1000px;
+    }
+    
+    .controls {
+        width: 1000px;
+    }
+    
+    .score-container {
+        width: 1000px;
+    }
+
+    .player-container {
+        width:1000px;
+    }
+}

@@ -1,0 +1,83 @@
+html, body {
+    background-color: #000000;
+    color: #ffffff;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+.wrapper {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    background-color: #4d4654;
+    display: inline-block;
+    border-radius: 16px;
+    position: relative;
+}
+
+.mode-switcher {
+    background-color: #63586e;
+    fill: #d1bee6;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    border-radius: 50%;
+}
+
+.mode-switcher:hover {
+    cursor: pointer;
+    animation-name: inputFocus;
+    animation-delay: 0s;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes inputFocus {
+    0% {
+        box-shadow: 0 0 0 #d1bee6;
+    }
+    100% {
+        box-shadow: 0 0 16px #d1bee6;
+    }
+} 
+
+.container {
+    box-sizing: border-box;
+    min-width: 100%;
+    min-height: 100%;
+    background-color: #63586e;
+    border-radius: 16px;
+    display: inline-block;
+    text-align: center;
+}
+
+@media only screen and (min-width: 1000px){
+    .wrapper {
+        margin-left: 10%;
+        margin-right: 10%;
+        box-sizing: border-box;
+        width: 80%;
+        height: 100%;
+        background-color: #4d4654;
+        display: inline-block;
+        border-radius: 16px;
+    }
+
+    .container {
+        margin-left: 10%;
+        margin-right: 10%;
+        margin-top: 32px;
+        box-sizing: border-box;
+        min-width: 80%;
+        min-height: 600px;
+        background-color: #63586e;
+        border-radius: 16px;
+        display: inline-block;
+    }
+}
+
+
