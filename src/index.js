@@ -4,12 +4,10 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 var bodyParser = require('body-parser');
-var request = require('request');
 
 var names = [];
 var scores = {};
 var sortedScores = {};
-var arduinoAddress = "http://192.168.0.76";
 
 const winningScore = 5;
 
@@ -60,13 +58,7 @@ function displayScoreBoard() {
             if(arrScores[i] === scores[names[j]]) {
                 console.log(names[j]);
                 console.log(Object.keys(sortedScores));
-                // if(names[j] in Object.keys(sortedScores)) {
-                //     console.log("Already included");
-                //     continue;
-                // }
                 sortedScores[names[j]] = arrScores[i];
-
-                // break;
             }
         }
     }
@@ -83,18 +75,6 @@ function displayScoreBoard() {
         }
     }
 
-    // Object.keys(scores).forEach(function (key) {
-        
-
-    //     console.log(`Max ${max}`);
-    //     console.log(`Key ${key}`);
-    //     if(scores[key] > scores[max]) {
-    //         console.log('Key: ' + key);
-    //         max = key;
-    //     }
-
-
-    // });
     console.log("emit game-over");
     console.log(names[max]);
     console.log(sortedScores);
@@ -163,8 +143,6 @@ io.on('connection', function(socket) {
         console.log(scores);
         socket.emit('load-score-data', scores, names);
         socket.broadcast.emit('load-score-data', scores, names);
-
-
     });
 
     socket.on('increment-score', function(name) {
@@ -197,32 +175,6 @@ io.on('connection', function(socket) {
         socket.broadcast.emit('new-card', name);
     })
 });
-
-// app.post('/', function(req, res) {
-//     console.log(req.body);
-//     var red = req.body.red;
-//     var green = req.body.green;
-//     var blue = req.body.blue;
-//     var brightness = req.body.brightness;
-
-//     request({
-//         url: arduinoAddress,
-//         method: "POST",
-//         headers: {
-//             "content-type": "application/x-www-form-urlencoded",
-//         },
-//         body: `red=${red}&green=${green}&blue=${blue}&brightness=${brightness}`
-//     }, function (error, response, body) {
-//         console.log(response);
-//         if (response.body === "success") {
-//             res.send("success");
-//         }
-//     });
-// });
-
-// app.get('/', function(req, res) { 
-//     res.sendFile(`${process.cwd()}/LightRemote.html`);
-// });
 
 app.get('/charades', function(req, res) { 
     res.sendFile(`${process.cwd()}/public/charades.html`);
