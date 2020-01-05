@@ -176,10 +176,6 @@ io.on('connection', function(socket) {
     })
 });
 
-app.get('/charades', function(req, res) { 
-    res.sendFile(`${process.cwd()}/charades.html`);
-});
-
 app.get('/', function(req, res) { 
     res.sendFile(`${process.cwd()}/charades.html`);
 });
