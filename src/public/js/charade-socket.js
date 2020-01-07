@@ -85,11 +85,8 @@ socket.on('load-score-data', function(scores, names) {
     displayPlayers(scores, names);
 });
 
-socket.on('game-over', function(winnerName, scores, names) {
+socket.on('game-over', function(scores, names) {
     // showWinner(winnerName);
-    console.log("Winner is: " + winnerName);
-    console.log(scores);
-    console.log(names);
     showWinners(scores, names);
 });
 

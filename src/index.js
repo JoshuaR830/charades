@@ -5,12 +5,18 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 var bodyParser = require('body-parser');
 
-var names = [];
-var scores = {};
-var sortedScores = {};
+function Room(code) {
+    this.roomCode = code;
+    this.names = [];
+    this.scores = {};
+    this.sortedScores = {};
+    this.winningScore = 5;
+    this.categories = initialCategories.slice();
+    this.charades = initialCharades.slice();
+    this.answer;
+}
 
 const winningScore = 5;
-
 
 var initialCategories = ["christmas", "sport", "france", "technology", "animals", "books", "countries", "politics"]
 var initialCharades = [
@@ -30,101 +36,65 @@ if(debug) {
     winningScore = 1;
 }
 
-var charades = initialCharades;
-var categories = initialCategories;
+rooms = {};
 
-var answer;
+rooms['abcd'] = new Room('abcd');
+rooms['efgh'] = new Room('efgh');
+
+rooms['abcd'].charades.splice(0, 1);
+
+console.log(rooms['abcd'].charades[0][0]);
+console.log(rooms['efgh'].charades[0][0]);
+
+console.log(initialCharades[0][0]);
+
+
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
 function displayScoreBoard() {
-    console.log('All done');
-
-    var max = 0;
-    console.log("initial " + names[max]);
-
+    // Creates an array of scores in order
     var arrScores = Object.values(scores);
-
     arrScores.sort().reverse();
 
-    console.log(arrScores);
-
+    // Create a list of scores in the order that they placed
     for(i = 0; i < arrScores.length; i++) {
         for(j = 0; j < names.length; j++) {
-            console.log(scores[names[j]]);
-            console.log("sorted ", sortedScores);
-            console.log(arrScores[i]);
             if(arrScores[i] === scores[names[j]]) {
-                console.log(names[j]);
-                console.log(Object.keys(sortedScores));
                 sortedScores[names[j]] = arrScores[i];
             }
         }
     }
-
-    console.log(sortedScores)
-
-
-    for (i = 0; i < names.length; i++) {
-        console.log("current " + names[i]);
-        console.log("max  " + names[max]);
-        if (scores[names[i]] > scores[names[max]]) {
-            max = i;
-            console.log('Key: ' + names[i]);
-        }
-    }
-
-    console.log("emit game-over");
-    console.log(names[max]);
-    console.log(sortedScores);
-
-    io.sockets.emit('game-over', names[max], sortedScores, names);
 }
 
 function selectCharade() {
-    
-    var playState = true;
-
-    
     do {
         var numCategories = charades.length;
 
         if(numCategories === 0) {
             displayScoreBoard();
-            playState = false;
-            break;
+            return [null, null];
         }
 
         var categoryToSelect = (Math.floor(Math.random() * 10) % numCategories);
         var numCharades = charades[categoryToSelect].length;
-
 
         if(numCharades === 0){
             charades.splice(categoryToSelect, 1);
             categories.splice(categoryToSelect, 1);
         }
 
-        console.log(charades);
-        console.log(categories);
-
-       
     } while(numCharades === 0);
 
-    if (playState) {
-        var charadeToSelect = (Math.floor(Math.random() * 10) % numCharades);
+    var charadeToSelect = (Math.floor(Math.random() * 10) % numCharades);
 
-        answer = charades[categoryToSelect][charadeToSelect];
-        console.log("When set" + answer);
-    
-        charades[categoryToSelect].splice(charadeToSelect, 1);
-        if(numCategories > 0) {
-            return [answer, categories[categoryToSelect]];
-        }
-    } else {
-        return [null, null];
+    answer = charades[categoryToSelect][charadeToSelect];
+
+    charades[categoryToSelect].splice(charadeToSelect, 1);
+    if(numCategories > 0) {
+        return [answer, categories[categoryToSelect]];
     }
-
 }
 
 io.on('connection', function(socket) {
@@ -169,6 +139,9 @@ io.on('connection', function(socket) {
 
         console.log("New");
         response = selectCharade();
+        if(response == [null, null]) {
+            io.sockets.emit('game-over', sortedScores, names);
+        }
         console.log(answer);
         socket.emit('my-charade', response);
         socket.broadcast.emit('set-colour', response[1]);
