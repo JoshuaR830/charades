@@ -5,7 +5,7 @@ var winner;
 
 var yourCharade;
 
-room = "abcd";
+var room;
 
 socket.on('reveal-answer', function(answer) {
     yourCharade = answer;
@@ -55,6 +55,7 @@ function displayPlayers(scores, players) {
 }
 
 function incrementScore(name) {
+    console.log("Room " + room);
     socket.emit("increment-score", room, name);
 }
 
@@ -90,6 +91,15 @@ socket.on('load-score-data', function(scores, names) {
 socket.on('game-over', function(scores, names) {
     // showWinner(winnerName);
     showWinners(scores, names);
+});
+
+socket.on('invalid-password', function() {
+    document.getElementById('password-input').style.backgroundColor = "#991c22";
+    room = "";
+});
+
+socket.on('valid-password', function() {
+    hideLogin(name);
 });
 
 function showWinners(scores, names) {
@@ -211,10 +221,10 @@ function hideLogin(name) {
 
 function submitUserName() {
     var name = document.getElementById('name-input').value;
-    var room = document.getElementById('room-input').value;
+    room = document.getElementById('room-input').value;
+    var password = document.getElementById('password-input').value;
 
-    socket.emit('new-user-name', name, room);
-    hideLogin(name);
+    socket.emit('new-user-name', name, room, password);
 }
 
 function revealAnswer() {

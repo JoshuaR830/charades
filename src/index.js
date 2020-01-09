@@ -5,8 +5,9 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 var bodyParser = require('body-parser');
 
-function Room(code) {
+function Room(code, password) {
     this.roomCode = code;
+    this.password = password;
     this.names = [];
     this.scores = {};
     this.sortedScores = {};
@@ -38,9 +39,6 @@ if(debug) {
 
 rooms = {};
 
-rooms['abcd'] = new Room('abcd');
-rooms['efgh'] = new Room('efgh');
-
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -64,6 +62,7 @@ function displayScoreBoard(id) {
 
 function selectCharade(id) {
     do {
+        console.log(id);
         var charades = rooms[id].charades;
         var categories = rooms[id].categories;
 
@@ -101,36 +100,45 @@ io.on('connection', function(socket) {
         console.log('user disconnected');
     });
 
-    socket.on('new-user-name', function(name, room) {
+    socket.on('new-user-name', function(name, room, password) {
+
+        console.log(room);
+
         if(!(room in rooms)) {
-            rooms[room] = new Room(room);
+            rooms[room] = new Room(room, password);
         }
         
-        console.log(name);
-        console.log(`room ${room}`);
-        var scores = rooms[room].scores;
-        var names = rooms[room].names;
+        if(rooms[room].password != password) {
+            socket.emit('invalid-password');
+        } else {
+            socket.emit('valid-password');
+            console.log(name);
+            console.log(`room ${room}`);
+            var scores = rooms[room].scores;
+            var names = rooms[room].names;
 
-        socket.join(room);
+            socket.join(room);
 
-        console.log('hello');
-        console.log(rooms[room]);
+            console.log('hello');
+            console.log(rooms[room]);
 
-        name = name.split(" ")[0];
-        if(!(name in scores)) {
-            names[names.length] = name;
-            scores[name] = 0;
+            name = name.split(" ")[0];
+            if(!(name in scores)) {
+                names[names.length] = name;
+                scores[name] = 0;
+            }
+
+            console.log(rooms[room]);
+
+
+            console.log(scores);
+            socket.emit('load-score-data', scores, names);
+            socket.broadcast.to(room).emit('load-score-data', scores, names);
         }
-
-        console.log(rooms[room]);
-
-
-        console.log(scores);
-        socket.emit('load-score-data', scores, names);
-        socket.broadcast.to(room).emit('load-score-data', scores, names);
     });
 
     socket.on('increment-score', function(id, name) {
+        console.log(rooms[id]);
         var scores = rooms[id].scores;
         var sortedScores = rooms[id].sortedScores;
         var names = rooms[id].names;
@@ -146,6 +154,7 @@ io.on('connection', function(socket) {
                 displayScoreBoard(id);
                 socket.emit('game-over', sortedScores, names);
                 socket.to(id).broadcast.emit('game-over', sortedScores, names);
+                delete rooms[id];
                 break;
             }
         }
@@ -162,6 +171,7 @@ io.on('connection', function(socket) {
         response = selectCharade(id);
         if(response == [null, null]) {
             io.sockets.emit('game-over', sortedScores, names);
+            delete rooms[id];
         }
         console.log(answer);
         socket.emit('my-charade', response);
