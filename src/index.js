@@ -41,15 +41,6 @@ rooms = {};
 rooms['abcd'] = new Room('abcd');
 rooms['efgh'] = new Room('efgh');
 
-rooms['abcd'].charades.splice(0, 1);
-
-console.log(rooms['abcd'].charades[0][0]);
-console.log(rooms['efgh'].charades[0][0]);
-
-console.log(initialCharades[0][0]);
-
-
-
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
