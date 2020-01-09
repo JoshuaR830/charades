@@ -5,6 +5,8 @@ var winner;
 
 var yourCharade;
 
+room = "abcd";
+
 socket.on('reveal-answer', function(answer) {
     yourCharade = answer;
     console.log("Show");
@@ -53,7 +55,7 @@ function displayPlayers(scores, players) {
 }
 
 function incrementScore(name) {
-    socket.emit("increment-score", name);
+    socket.emit("increment-score", room, name);
 }
 
 socket.on('new-card', function(name) {
@@ -217,7 +219,7 @@ function submitUserName() {
 
 function revealAnswer() {
     console.log("Revealed");
-    socket.emit('user-revealed-answer');
+    socket.emit('user-revealed-answer', room);
     // document.getElementById('new-charade').style.display = 'inline-block';
     document.getElementById('reveal-button').style.display = 'none';
 }
@@ -225,7 +227,7 @@ function revealAnswer() {
 function newCard() {
     console.log('new-card-selected');
     var name = document.getElementById('my-user').value;
-    socket.emit('user-selected-new-card', name);
+    socket.emit('user-selected-new-card', room, name);
     document.getElementById('new-charade').style.display = 'none';
     document.getElementById('reveal-button').style.display = 'inline-block';
 }
