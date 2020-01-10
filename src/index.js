@@ -111,7 +111,7 @@ io.on('connection', function(socket) {
         if(rooms[room].password != password) {
             socket.emit('invalid-password');
         } else {
-            socket.emit('valid-password');
+            socket.emit('valid-password', name);
             console.log(name);
             console.log(`room ${room}`);
             var scores = rooms[room].scores;
@@ -170,10 +170,12 @@ io.on('connection', function(socket) {
         console.log("New");
         response = selectCharade(id);
         if(response == [null, null]) {
-            io.sockets.emit('game-over', sortedScores, names);
+            socket.broadcast.to(id).emit('game-over', sortedScores, names);
+            socket.emit('game-over', sortedScores, names);
             delete rooms[id];
         }
         console.log(answer);
+        console.log(`It's ${name}'s turn`);
         socket.emit('my-charade', response);
         socket.broadcast.to(id).emit('set-colour', response[1]);
         socket.broadcast.to(id).emit('new-card', name);

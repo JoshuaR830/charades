@@ -98,7 +98,7 @@ socket.on('invalid-password', function() {
     room = "";
 });
 
-socket.on('valid-password', function() {
+socket.on('valid-password', function(name) {
     hideLogin(name);
 });
 
@@ -237,6 +237,7 @@ function revealAnswer() {
 function newCard() {
     console.log('new-card-selected');
     var name = document.getElementById('my-user').value;
+    console.log(`It's ${name}'s turn`);
     socket.emit('user-selected-new-card', room, name);
     document.getElementById('new-charade').style.display = 'none';
     document.getElementById('reveal-button').style.display = 'inline-block';
