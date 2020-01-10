@@ -1,0 +1,27 @@
+:root {
+    --primary: #8b4cb5;
+    --primary-variant: #B680D1;
+
+    /* --primary: #B680D1; */
+    /* --primary-variant: #8b4cb5; */
+
+    --on-primary: #B680D1;
+
+    --secondary: #7d0080;
+    --secondary-variant: #b54cab;
+    --on-secondary: #7d0080;
+
+    
+    --background: #4d4654;
+    --on-background: #4d4654;
+    
+    --surface: #635870;
+    --on-surface: #6a6274;
+    
+    --error: #B00020;
+    --on-error: #ed323b;
+
+    --text-color: #ffffff;
+
+    --height: 56px;
+}
