@@ -101,7 +101,7 @@ io.on('connection', function(socket) {
     });
 
     socket.on('new-user-name', function(name, room, password) {
-
+        console.log('Hello');
         console.log(room);
 
         if(!(room in rooms)) {
@@ -184,6 +184,26 @@ io.on('connection', function(socket) {
 
 app.get('/', function(req, res) { 
     res.sendFile(`${process.cwd()}/charades.html`);
+});
+
+app.get('/foreground', function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.sendFile(`${__dirname}/partials/foreground.html`);
+});
+
+app.get('/background', function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.sendFile(`${__dirname}/partials/background.html`);
+});
+
+app.get('/title', function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.sendFile(`${__dirname}/partials/title.html`);
+});
+
+app.get('/subtitle', function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.sendFile(`${__dirname}/partials/subtitle.html`);
 });
 
 http.listen(8001, () => console.log('Listening on port 8001!'));
