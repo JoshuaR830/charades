@@ -1,0 +1,85 @@
+.login-container {
+    margin: 16px;
+    padding: 16px;
+    border-radius: 16px;
+    color: var(--on-surface);
+    border: 1px solid var(--secondary);
+    max-width: 300px;
+}
+
+.login-subtitle {
+    padding: 16px;
+}
+
+.login-input {
+    background-color: transparent;
+    color: #d1bee6;
+    outline: none;
+    border: 1px solid var(--secondary);
+
+    border-radius: 4px;
+    line-height: 16px;
+    width: 250px;
+    font-size: 16px;
+    padding-left: 8px;
+    box-sizing: border-box;
+
+    animation-name: inputLostFocus;
+    animation-delay: 0s;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+.login-input:focus {
+    animation-name: inputFocus;
+    animation-delay: 0s;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+    box-sizing: border-box;
+}
+
+.login-button {
+    background-color: transparent;
+    color: var(--on-surface);
+    outline: none;
+    border: 1px solid var(--secondary);
+    width: 200px;
+    padding: 8px;
+    border-radius: 32px;
+    font-size: 16px;
+    line-height: 16px;
+    margin: 8px;
+    text-align: center;
+    margin-left: auto;
+}
+
+.login-button:hover {
+    cursor: pointer;
+    animation-name: inputFocus;
+    animation-delay: 0s;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+.error {
+    background-color: var(--error);
+    color: var(--on-error);
+}
+
+@keyframes inputFocus {
+    0% {
+        box-shadow: 0 0 0 var(--secondary-variant);
+    }
+    100% {
+        box-shadow: 0 0 16px var(--secondary-variant);
+    }
+} 
+
+@keyframes inputLostFocus {
+    0% {
+        box-shadow: 0 0 16px var(--secondary-variant);
+    }
+    100% {
+        box-shadow: 0 0 0 var(--secondary-variant);
+    }
+} 
