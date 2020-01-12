@@ -17,10 +17,10 @@
     </div>
     <div id="charades">
         
-        <div class="score-container content-box">
-            <div id="category" class="category"></div>
-        </div> 
+        
         <div id="player-container" class="content-box player-container"></div>
+        <div id="category" class="category-container content-box"></div>
+        
 
         <div class="card-container content-box">
             <div id="charade-card" class="card content-box">
@@ -32,9 +32,6 @@
         <div class="controls content-box">
             <div id="new-charade" class="button request-card" onclick="newCard()">New</div>
             <div id="reveal-button" class="button" onclick="revealAnswer()">Reveal</div>
-        </div>
-        <div class="brightness-container">
-            <input type="range" min="0" max="255" value="200" class="slider" id="brightness-slider">
         </div>
     </div>
     <div id="winner" class="winner">

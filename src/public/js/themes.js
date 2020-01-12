@@ -129,11 +129,14 @@ function defaultTheme() {
 
 function getCookie(name) {
     var cookies = document.cookie.split(';');
+    var cookie;
     name = `${name}=`
+    
     for(var i = 0; i < cookies.length; i++) {
         if(cookies[i].indexOf(name) >= 0) {
             cookie = cookies[i].trim().replace(name, '');
         }
     }
+
     return cookie;
 }
