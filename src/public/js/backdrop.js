@@ -40,11 +40,16 @@ window.addEventListener('load', function() {
             if(backgroundContainer.scrollTop === 0) {
                 backgroundContainer.removeEventListener('scroll', endOfScroll);
                 displayForeground();
+                console.log('up');
             }
         } else if (event.deltaY > 0) {
-            if (backgroundContainer.scrollHeight - backgroundContainer.offsetHeight === backgroundContainer.scrollTop) {
+
+            console.log('down');
+
+            if ((backgroundContainer.scrollHeight - backgroundContainer.offsetHeight === backgroundContainer.scrollTop) || (backgroundContainer.scrollTop === 0)) {
                 backgroundContainer.removeEventListener('scroll', endOfScroll);
                 displayForeground();
+                console.log('down');
             }
         }
     }
