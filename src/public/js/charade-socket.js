@@ -109,113 +109,54 @@ socket.on('valid-password', function(name) {
 function showWinners(scores, names) {
     document.getElementById('surface-subtitle').innerText = scoreSubtitle;
 
-    charades.style.display = 'none';
-    winner.style.display = 'inline-block';
-
-    var podeum = document.getElementById('podeum');
-    var otherPlayers = document.getElementById('other-places');
-    otherPlayers.innerHTML = "";
-    console.log(scores);
-
+    scoreContainer = document.getElementById('score-container');
     orderedNames = Object.keys(scores);
+    orderedValues = Object.values(scores);
 
-    console.log(orderedNames);
-    console.log(orderedNames.length);
+    charades.style.display = 'none';
+    scoreContainer.style.display = 'inline-block';
 
-    var position;
-    var num = 0;
-    var positions = [0, 0, 0, 0];
+    var html = "";
 
+    var name;
+    var score;
+    var position = 1;
+    var place;
 
-    for(i = 0; i < orderedNames.length; i++) {
-        var root = document.documentElement;
-        score = scores[orderedNames[i]];
-        var position = document.createElement('div');
-        var place;
-        var j = i;
-
+    for(var i = 0; i < orderedNames.length; i++)
+    {
         if(i > 0) {
-            if (scores[orderedNames[i]] === scores[orderedNames[i-1]]) {
-                num ++;
+            if(scores[orderedNames[i]] === scores[orderedNames[i-1]])
+            {
+            } else {
+                position ++;
             }
         }
-        
-        j = (i - num);
 
-        console.log("num " + num);
+        name = names[i];
+        score = scores[orderedNames[i]];
 
-        console.log("J " + j);
-        console.log("i - num" + (i - num));
-
-
-
-        if (j === 0) {
-            positions[j] ++;
-            if(positions[j] <= 4) {
-                root.style.setProperty("--first-width", (positions[j]));
-            }
-
-            console.log('first:' + orderedNames[i]);
-            place = document.getElementById('first-place');
-            position.classList.add('score', 'first-player');
-            position.innerHTML = `${orderedNames[i].split(" ")[0]}<br><span class="score-text">${score}</span>`;
-            place.appendChild(position);
-            
-
-            
-        } else if (j === 1) {
-            positions[j] ++;
-            if(positions[j] <= 4) {
-                root.style.setProperty("--second-width", (positions[j]));
-            }
-
-
-            console.log('second:' + orderedNames[i])
-            place = document.getElementById('second-place');
-            position.classList.add('score', 'second-player');
-            position.innerHTML = `${orderedNames[i].split(" ")[0]}<br><span class="score-text">${score}</span>`;
-            place.appendChild(position);
-            
-
-            
-        } else if (j == 2) {
-            positions[j] ++;
-            if(positions[j] <= 4) {
-                root.style.setProperty("--third-width", (positions[j]));
-            }
-
-
-            place = document.getElementById('third-place');
-            position.innerHTML = `${orderedNames[i].split(" ")[0]}<br><span class="score-text">${score}</span>`;
-            position.classList.add('score', 'third-player');
-            console.log('third:' + orderedNames[i]);
-            place.appendChild(position);
-           
-
-
-
+        if(position === 1) {
+            place = 'first';
+        } else if (position === 2) {
+            place = 'second';
+        } else if (position === 3) {
+            place = 'third';
         } else {
-            place = document.getElementById('other-places');
-            console.log('other:' + orderedNames[i]);
-            let currentPlayer = orderedNames[i]
-            
-            console.log(currentPlayer);
-            position.classList.add("score");
-
-            position.innerHTML = `${orderedNames[i].split(" ")[0]}<br><span class="score-text">${score}</span>`;
-            place.appendChild(position);
-            positions[3] ++;
-
+            place = 'other';
         }
 
+        html += `<div class="score-row">
+            <div class="medal ${place}-medal">${position}</div>
+            <div class="${place}-place score-place">
+                <div class="score-name">${name}</div>
+                <div class="score-circle ${place}-circle">${score}</div>
+            </div>
+        </div>`
 
+    }
 
-        console.log(positions);
-    };
-
-    positions.sort().reverse();
-    root.style.setProperty("--score-height", (Math.ceil(positions[0] / 4)));
-
+    scoreContainer.innerHTML = html;
 }
 
 function hideLogin(name) {
