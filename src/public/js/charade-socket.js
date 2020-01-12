@@ -92,7 +92,6 @@ socket.on('load-score-data', function(scores, names) {
 });
 
 socket.on('game-over', function(scores, names) {
-    // showWinner(winnerName);
     showWinners(scores, names);
 });
 
