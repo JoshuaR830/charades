@@ -49,7 +49,7 @@ body {
     height: 250px;
     display: block;
     margin: 8px 0;
-    background-color: #4d4654;
+    background-color: var(--primary);
     overflow: hidden;
 }
 
@@ -146,5 +146,9 @@ body {
         padding: 20px;
         box-sizing: border-box;
         display: inline-block;
+    }
+
+    .charades-container {
+        max-width: 800px;
     }
 }

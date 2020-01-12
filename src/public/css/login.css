@@ -66,6 +66,16 @@
     color: var(--on-error);
 }
 
+@media only screen and (min-width: 600px) {
+    .login-container {
+        width: 600px;
+        max-width: 800px;
+        padding: 32px 120px 32px 120px;
+        box-sizing: border-box;
+        display: inline-block;
+    }
+}
+
 @keyframes inputFocus {
     0% {
         box-shadow: 0 0 0 var(--secondary-variant);
