@@ -7,11 +7,52 @@ window.addEventListener('load', function() {
     var container = document.querySelector('.foreground-content-container');
     var reveal = document.querySelector('.subtitle-container');
     var foregroundButton = document.querySelector('.show-foreground-button');
-    var backgroundContainer = this.document.querySelector('.background-content-container');
+    var backgroundContainer = document.querySelector('.background-content-container');
+
+    function scrollToHide() {
+        if(backgroundContainer.scrollHeight - backgroundContainer.offsetHeight === backgroundContainer.scrollTop) {
+            backgroundContainer.addEventListener('scroll', endOfScroll);
+            document.body.addEventListener('wheel',  respondToRoll);
+            console.log('wheel listener');
+        } else {
+            backgroundContainer.addEventListener('scroll', endOfScroll);
+            document.body.addEventListener('wheel',  respondToRoll);
+            console.log('scroll listener');
+
+        }
+    }
+
+    function endOfScroll() {
+        if (backgroundContainer.scrollHeight - backgroundContainer.offsetHeight === backgroundContainer.scrollTop) {
+            document.body.addEventListener('wheel',  respondToRoll);
+            console.log('wheel listener');
+        }
+        if (backgroundContainer.scrollTop === 0) {
+            document.body.addEventListener('wheel',  respondToRoll);
+            console.log('wheel listener');
+        }
+    }
+
+    function respondToRoll(event) {
+        document.body.removeEventListener('wheel',  respondToRoll);
+        
+        if(event.deltaY < 0) {
+            if(backgroundContainer.scrollTop === 0) {
+                backgroundContainer.removeEventListener('scroll', endOfScroll);
+                displayForeground();
+            }
+        } else if (event.deltaY > 0) {
+            if (backgroundContainer.scrollHeight - backgroundContainer.offsetHeight === backgroundContainer.scrollTop) {
+                backgroundContainer.removeEventListener('scroll', endOfScroll);
+                displayForeground();
+            }
+        }
+    }
 
     menuReveal.addEventListener('click', function(event) {
         console.log("menu clicked");
         menuRevealed();
+        scrollToHide();
         foreground.classList.add('animated-scroll-forwards');
         foreground.classList.remove('animated-scroll-backwards');
         foregroundButton.style.display = 'inline-block';
