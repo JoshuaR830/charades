@@ -19,7 +19,7 @@ body {
 
 .wrapper {
     width: 100%;
-    display: inline-block;
+    display: block;
 }
 
 .container {
@@ -28,7 +28,7 @@ body {
     margin: 16px;
     background-color: var(--surface);
     border-radius: 16px;
-    display: inline-block;
+    display: block;
     text-align: center;
     overflow: hidden;
 }
@@ -47,7 +47,7 @@ body {
     margin: 16px;
     width: 100%;
     height: 250px;
-    display: inline-block;
+    display: block;
     margin: 8px 0;
     background-color: #4d4654;
     overflow: hidden;
@@ -55,7 +55,7 @@ body {
 
 .controls {
     text-align: center;
-    display: inline-block;
+    display: block;
     margin-bottom:8px;
     width: 100%;
     height: 56px;
@@ -75,7 +75,7 @@ body {
     line-height: 32px;
     padding: 12px;
     box-sizing: border-box;
-    display: inline-block;
+    display: block;
 }
 
 .score {
@@ -102,7 +102,7 @@ body {
 
 .player-container {
     width: 100%;
-    display: inline-block;
+    display: block;
     margin-top: 8px;
     background-color: var(--card-color);
     overflow-x: hidden;
@@ -137,76 +137,4 @@ body {
 
 .button:hover {
     cursor: pointer;
-}
-
-.first-player {
-    background-color: #d4af37;
-    border-color: #79641f;
-}
-
-.second-player {
-    background-color: #aaa9ad;
-    border-color: #656566;
-}
-
-.third-player {
-    background-color: #cd7f32;
-    border-color: #583716;
-}
-
-.first-place-container {
-    position: fixed;
-    background-color: var(--secondary-variant);
-    border: 1px solid var(--secondary);
-    height: calc(calc(var(--score-height)*120px) + 200px);
-    width: calc(var(--first-width)*120px);
-    margin-left: -60px;
-}
-
-.second-place-container {
-    position: fixed;
-    background-color: var(--secondary-variant);
-    border: 1px solid var(--secondary);
-    height: calc(calc(var(--score-height)*120px) + 120px);
-    width: calc(var(--second-width)*120px);
-    margin-left: calc(calc(var(--second-width)*-120px) - 60px);
-    margin-top: 80px;
-}
-
-.third-place-container {
-    position: fixed;
-    background-color: var(--secondary-variant);
-    border: 1px solid var(--secondary);
-    height: calc(calc(var(--score-height)*120px) + 40px);
-    width: calc(var(--third-width)*120px);
-    margin-left: 60px;
-    margin-top: 160px;
-}
-
-.top-three-container {
-    position: relative;
-    display: inline-block;
-    text-align: center;
-    margin-top: 80px;
-    height: 360px;
-}
-
-.other-player-container {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    margin-bottom: 24px;
-}
-
-.score-board {
-    min-width: 100%;
-}
-
-.podeum {
-    min-width: 100%;
-}
-
-.winner {
-    width: 100%;
-    display: none;
 }

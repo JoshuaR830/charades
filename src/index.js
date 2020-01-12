@@ -154,6 +154,7 @@ io.on('connection', function(socket) {
                 displayScoreBoard(id);
                 socket.emit('game-over', sortedScores, names);
                 socket.to(id).broadcast.emit('game-over', sortedScores, names);
+                socket.disconnect();
                 delete rooms[id];
                 break;
             }

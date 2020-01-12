@@ -1,3 +1,6 @@
+const charadesSubtitle = 'Play';
+const scoreSubtitle = 'Score Board';
+
 var socket = io();
 var login;
 var charades;
@@ -104,6 +107,7 @@ socket.on('valid-password', function(name) {
 });
 
 function showWinners(scores, names) {
+    document.getElementById('surface-subtitle').innerText = scoreSubtitle;
 
     charades.style.display = 'none';
     winner.style.display = 'inline-block';
@@ -217,7 +221,8 @@ function showWinners(scores, names) {
 function hideLogin(name) {
     login.style.display = 'none';
     charades.style.display = 'inline-block';
-    document.getElementById("my-user").value = name;
+    document.getElementById('my-user').value = name;
+    document.getElementById('surface-subtitle').innerText = charadesSubtitle;
 }
 
 function submitUserName() {
