@@ -151,18 +151,18 @@ body {
 }
 
 .first-place-container {
-    position: absolute;
-    background-color: #32527b;
-    border: 1px solid #19293d;
+    position: fixed;
+    background-color: var(--secondary-variant);
+    border: 1px solid var(--secondary);
     height: calc(calc(var(--score-height)*120px) + 200px);
     width: calc(var(--first-width)*120px);
     margin-left: -60px;
 }
 
 .second-place-container {
-    position: absolute;
-    background-color: #32527b;
-    border: 1px solid #19293d;
+    position: fixed;
+    background-color: var(--secondary-variant);
+    border: 1px solid var(--secondary);
     height: calc(calc(var(--score-height)*120px) + 120px);
     width: calc(var(--second-width)*120px);
     margin-left: calc(calc(var(--second-width)*-120px) - 60px);
@@ -170,9 +170,9 @@ body {
 }
 
 .third-place-container {
-    position: absolute;
-    background-color: #32527b;
-    border: 1px solid #19293d;
+    position: fixed;
+    background-color: var(--secondary-variant);
+    border: 1px solid var(--secondary);
     height: calc(calc(var(--score-height)*120px) + 40px);
     width: calc(var(--third-width)*120px);
     margin-left: 60px;
