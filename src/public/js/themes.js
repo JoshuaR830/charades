@@ -46,7 +46,7 @@ function fastThemeSwitcher(theme) {
             blackTheme();
             break;
         default:
-            defaultTheme();
+            blackTheme();
             break;
     }
 }
