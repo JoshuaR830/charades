@@ -133,7 +133,7 @@ function showWinners(scores, names) {
             }
         }
 
-        name = names[i];
+        name = orderedNames[i];
         score = scores[orderedNames[i]];
 
         if(position === 1) {
