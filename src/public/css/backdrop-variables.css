@@ -1,20 +1,20 @@
 :root {
     /* Create a colour scheme here */
-    --primary: #8b4cb5;
-    --primary-variant: #B680D1;
+    --primary: #121212;
+    --primary-variant: #373737;
     --on-primary: #ffffff;
 
-    --secondary: #00b9c7;
-    --secondary-variant: #008084;
+    --secondary: #ce9fd6;
+    --secondary-variant: #c77fd4;
     --on-secondary: #ffffff;
     
     --background: #8b4cb5;
     --on-background: #ffffff;
     
-    --surface: #ffffff;
-    --on-surface: #000000;
+    --surface: #1d1d1d;
+    --on-surface: #ffffff;
     
-    --error: #780018;
+    --error: #d1524b;
     --on-error: #ffffff;
 
     /* Create some height variables here */
