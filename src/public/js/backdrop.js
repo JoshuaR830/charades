@@ -1,13 +1,18 @@
 window.addEventListener('load', function() {
     fastThemeSwitcher(getCookie("theme"));
+    var root = document.documentElement;
     var buttons = document.querySelectorAll('.button');
     var foreground = document.getElementById('foreground');
     var menuReveal = document.getElementById("menu-reveal");
     var menuHide = document.getElementById('menu-hide');
+    var menuBack = document.getElementById('menu-back');
+    var scoreReveal = document.getElementById('menu-scores');
+    var scoreHide = document.getElementById('score-menu-hide');
     var container = document.querySelector('.foreground-content-container');
     var reveal = document.querySelector('.subtitle-container');
     var foregroundButton = document.querySelector('.show-foreground-button');
     var backgroundContainer = document.querySelector('.background-content-container');
+    var myUser = document.getElementById('my-user');
 
     function scrollToHide() {
         if(backgroundContainer.scrollHeight - backgroundContainer.offsetHeight === backgroundContainer.scrollTop) {
@@ -55,6 +60,8 @@ window.addEventListener('load', function() {
     }
 
     menuReveal.addEventListener('click', function(event) {
+        root.style.setProperty('--backdrop-position', '100vh');
+        scoreReveal.style.display = 'none';
         console.log("menu clicked");
         menuRevealed();
         scrollToHide();
@@ -65,8 +72,12 @@ window.addEventListener('load', function() {
         backgroundContainer.style.overflowY = "auto";
     });
 
-    var menuHide = document.getElementById('menu-hide');
+    // var menuHide = document.getElementById('menu-hide');
     menuHide.addEventListener('click', function(event) {
+        displayForeground();
+    });
+
+    menuBack.addEventListener('click', function(event) {
         displayForeground();
     });
 
@@ -83,17 +94,44 @@ window.addEventListener('load', function() {
         });
     });
 
+    scoreReveal.addEventListener('click', function(event) {
+        menuBack.style.display = 'inline-block';
+        menuReveal.style.display = 'none';
+        menuHide.style.display = 'none';
+        scoreReveal.style.display = 'none';
+        scoreHide.style.display = 'inline-block';
+        scoreReveal.style.display = 'none';
+        root.style.setProperty('--backdrop-position', 'calc(var(--height)*2 + 212px)');
+        console.log("score reveal clicked");
+        foreground.classList.add('animated-scroll-forwards');
+        foreground.classList.remove('animated-scroll-backwards');
+
+
+        foregroundButton.style.display = 'inline-block';
+        reveal.classList.add('reveal-foreground');
+        backgroundContainer.style.overflowY = "auto";
+    })
+
     reveal.addEventListener('click', function() {
         if(reveal.classList.contains('reveal-foreground')){
             displayForeground();
         }
     });
 
+    scoreHide.addEventListener('click', function(event) {
+        displayForeground();
+    })
+
     function displayForeground() {
         foregroundButton.style.display = 'none';
         reveal.classList.remove('reveal-foreground');
         foreground.classList.add('animated-scroll-backwards');
         foreground.classList.remove('animated-scroll-forwards');
+        menuBack.style.display = 'none';
+        scoreHide.style.display = 'none';
+        if(document.getElementById('my-user').value != "") {
+            scoreReveal.style.display = 'inline-block';
+        }
         container.style.display = 'inline-block';
         backgroundContainer.style.overflow = "hidden";
         menuHidden();

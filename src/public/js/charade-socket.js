@@ -185,6 +185,7 @@ function showWinners(scores, names) {
 
 function hideLogin(name) {
     login.style.display = 'none';
+    document.getElementById('menu-scores').style.display = "inline-block";
     charades.style.display = 'inline-block';
     document.getElementById('my-user').value = name;
     document.getElementById('surface-subtitle').innerText = charadesSubtitle;

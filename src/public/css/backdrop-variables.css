@@ -19,4 +19,5 @@
 
     /* Create some height variables here */
     --height: 56px;
+    --backdrop-position: calc(var(--height)*2 + 212px);
 }
