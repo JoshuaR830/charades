@@ -41,7 +41,7 @@
     box-sizing: border-box;
     border: 4px solid var(--secondary);
     z-index: 4;
-    background-color: black;
+    background-color: transparent;
 }
 
 .backdrop-score-text {

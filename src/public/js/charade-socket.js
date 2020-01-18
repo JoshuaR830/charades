@@ -15,10 +15,9 @@ socket.on('reveal-answer', function(answer) {
     console.log("Show");
     dissapear();
     setTimeout(appear, 500);
-    document.getElementById('new-charade').style.display = 'inline-block';
 });
 
-socket.on('my-charade', function(charade) {
+function myCharade(charade) {
     yourCharade = charade[0];
     category = charade[1];
     console.log(`Category: ${category}, Charade: ${charade}` );
@@ -26,6 +25,33 @@ socket.on('my-charade', function(charade) {
     setColours();
     dissapear();
     setTimeout(appear, 500);
+    document.getElementById('start-game').style.display = 'none';
+    document.getElementById('reveal-button').style.display = 'inline-block';
+}
+
+socket.on('new-card', function(name, charade) {
+    console.log("___________________________________");
+    console.log(name);
+    if(name === document.getElementById('my-user').value) {
+        console.log("It's me");
+        myCharade(charade);
+    } else {
+        console.log("It's someone else");
+        var card = document.getElementById('charade-card');
+
+        document.getElementById('start-game').style.display = 'none';
+        document.getElementById('reveal-button').style.display = 'none';
+    
+        var title = card.querySelector('.card-title');
+        var body = card.querySelector('.body');
+
+        console.log(title.innerText);
+        console.log(body.innerText);
+    
+        title.innerText = `It's ${toSentenceCase(name)}'s turn`;
+        body.innerText = `Start guessing what ${name} is acting`;
+        console.log("done");
+    }
 });
 
 function changeContent() {
@@ -44,7 +70,7 @@ function displayPlayers(scores, players) {
     console.log("Hello");
     var myPlayer = document.getElementById('my-user').value;
     playerContainer.innerHTML = "";
-    
+    players.sort();
     for(i = 0; i < players.length; i ++) {
         if(i === 0)
         {
@@ -69,7 +95,6 @@ function displayPlayers(scores, players) {
         var div = document.createElement('div');
         div.classList.add("backdrop-score");
         
-        
         div.innerHTML = `<div class="backdrop-score-circle">${score}</div><div class="backdrop-score-text">${currentPlayer}</div>`;
 
         console.log(currentPlayer);
@@ -79,26 +104,12 @@ function displayPlayers(scores, players) {
         }
         playerContainer.appendChild(div);
     }
-
 }
 
 function incrementScore(name) {
     console.log("Room " + room);
     socket.emit("increment-score", room, name);
 }
-
-socket.on('new-card', function(name) {
-    var card = document.getElementById('charade-card');
-
-    document.getElementById('new-charade').style.display = 'none';
-    document.getElementById('reveal-button').style.display = 'none';
-
-    var title = card.querySelector('.card-title');
-    var body = card.querySelector('.body');
-
-    title.innerText = `It's ${toSentenceCase(name)}'s turn`;
-    body.innerText = `Start guessing what ${name} is acting`;
-})
 
 function onSocketLoad() {
     login = document.getElementById('login');
@@ -150,8 +161,7 @@ function showWinners(scores, names) {
     for(var i = 0; i < orderedNames.length; i++)
     {
         if(i > 0) {
-            if(scores[orderedNames[i]] === scores[orderedNames[i-1]])
-            {
+            if(scores[orderedNames[i]] === scores[orderedNames[i-1]]){
             } else {
                 position ++;
             }
@@ -170,14 +180,7 @@ function showWinners(scores, names) {
             place = 'other';
         }
 
-        html += `<div class="score-row">
-            <div class="medal ${place}-medal">${position}</div>
-            <div class="${place}-place score-place">
-                <div class="score-name">${name}</div>
-                <div class="score-circle ${place}-circle">${score}</div>
-            </div>
-        </div>`
-
+        html += `<div class="score-row"><div class="medal ${place}-medal">${position}</div><div class="${place}-place score-place"><div class="score-name">${name}</div><div class="score-circle ${place}-circle">${score}</div></div></div>`
     }
 
     scoreContainer.innerHTML = html;
@@ -202,8 +205,14 @@ function submitUserName() {
 function revealAnswer() {
     console.log("Revealed");
     socket.emit('user-revealed-answer', room);
-    // document.getElementById('new-charade').style.display = 'inline-block';
+    document.getElementById('increment-score').style.display = 'inline-block';
     document.getElementById('reveal-button').style.display = 'none';
+}
+
+function scoreIncremented() {
+    var name = document.getElementById('my-user').value;
+    socket.emit('select-whose-turn', room, name);
+    document.getElementById('increment-score').style.display = 'none';
 }
 
 function newCard() {
@@ -211,8 +220,15 @@ function newCard() {
     var name = document.getElementById('my-user').value;
     console.log(`It's ${name}'s turn`);
     socket.emit('user-selected-new-card', room, name);
-    document.getElementById('new-charade').style.display = 'none';
-    document.getElementById('reveal-button').style.display = 'inline-block';
+}
+
+function startGame() {
+    console.log("It's happening");
+    var name = document.getElementById('my-user').value;
+
+    socket.emit('select-whose-turn', room, name);
+    document.getElementById('start-game').style.display = 'none';
+
 }
 
 function toSentenceCase(text) {

@@ -166,7 +166,34 @@ io.on('connection', function(socket) {
         socket.broadcast.to(id).emit('reveal-answer', answer);
     });
 
-    socket.on('user-selected-new-card', function(id, name) {
+    socket.on('select-whose-turn', function(id, name) {
+        var names = rooms[id].names;
+        var sortedScores = rooms[id].sortedScores;
+        var scores = rooms[id].scores;
+
+        if(names.length > 2) {
+            var weightedList = [];
+            for(var i = 0; i < names.length; i++) {
+                for(var j = -1; j < scores[names[i]]; j++)
+                {
+                    weightedList.push(names[i]);
+                }
+            }
+
+            console.log(weightedList);
+
+            do {
+                    var selection = (Math.floor(Math.random() * 10) % weightedList.length);
+                    var nameSelected = weightedList[selection];
+                    
+            } while(nameSelected === name);
+        } else {
+            console.log("Small game");
+            var selection = (Math.floor(Math.random() * 10) % names.length);
+            var nameSelected = names[selection];
+        }
+
+        console.log("Selected >>>>>> " + nameSelected);
 
         console.log("New");
         response = selectCharade(id);
@@ -176,10 +203,11 @@ io.on('connection', function(socket) {
             delete rooms[id];
         }
         console.log(answer);
-        console.log(`It's ${name}'s turn`);
-        socket.emit('my-charade', response);
+        console.log(`It's ${nameSelected}'s turn`);
+        socket.emit('new-card', nameSelected, response);
+        socket.emit('set-colour', response[1]);
         socket.broadcast.to(id).emit('set-colour', response[1]);
-        socket.broadcast.to(id).emit('new-card', name);
+        socket.broadcast.to(id).emit('new-card', nameSelected, response);
     })
 });
 
