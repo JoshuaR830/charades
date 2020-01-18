@@ -2,13 +2,12 @@ const charadesSubtitle = 'Play';
 const scoreSubtitle = 'Score Board';
 
 var socket = io();
+var room;
 var login;
 var charades;
 var winner;
 
 var yourCharade;
-
-var room;
 
 socket.on('reveal-answer', function(answer) {
     yourCharade = answer;
@@ -30,15 +29,11 @@ function myCharade(charade) {
 }
 
 socket.on('new-card', function(name, charade) {
-    console.log("___________________________________");
-    console.log(name);
     if(name === document.getElementById('my-user').value) {
         console.log("It's me");
         myCharade(charade);
     } else {
-        console.log("It's someone else");
         var card = document.getElementById('charade-card');
-
         document.getElementById('start-game').style.display = 'none';
         document.getElementById('reveal-button').style.display = 'none';
     
@@ -141,23 +136,6 @@ socket.on('valid-password', function(name) {
     hideLogin(name);
 });
 
-
-// function displayScoresToUpvote(scores, names) {
-//     html = "";
-//     scoreContainer = document.getElementById('score-container');
-//     scoreContainer.innerHTML = "";
-
-//     charades.style.display = 'none';
-//     scoreContainer.style.display = 'inline-block';
-
-//     for(var i = 0; i < names.length; i ++) {
-//         var name = names[i];
-//         var score = scores[name];
-//         html += `<div class="score-row" onclick="scoreIncremented()"><div class="medal other-medal"></div><div class="other-place score-place"><div class="score-name">${name}</div><div class="score-circle other-circle">${score}</div></div></div>`
-//     }
-//     scoreContainer.innerHTML = html;
-// }
-
 function showWinners(scores, names) {
     var scoreContainer = document.getElementById('increment-score-container');
     scoreContainer.style.display = 'none';
@@ -189,19 +167,23 @@ function showWinners(scores, names) {
         name = orderedNames[i];
         score = scores[orderedNames[i]];
 
-        if(position === 1) {
-            place = 'first';
-        } else if (position === 2) {
-            place = 'second';
-        } else if (position === 3) {
-            place = 'third';
-        } else {
-            place = 'other';
+        switch(position) {
+            case 1:
+                place = 'first';
+                break;
+            case 2: 
+                place = 'second';
+                break;
+            case 3:
+                place = 'third';
+                break;
+            default:
+                place = 'other';
+                break;
         }
 
         html += `<div class="score-row"><div class="medal ${place}-medal">${position}</div><div class="${place}-place score-place"><div class="score-name">${name}</div><div class="score-circle ${place}-circle">${score}</div></div></div>`
     }
-
     scoreContainer.innerHTML = html;
 }
 
@@ -224,16 +206,13 @@ function submitUserName() {
 function revealAnswer() {
     console.log("Revealed");
     socket.emit('user-revealed-answer', room);
-    // document.getElementById('increment-score').style.display = 'inline-block';
     document.getElementById('reveal-button').style.display = 'none';
 }
 
 socket.on('scores-to-upvote', function(scores, names) {
     var scoreContainer = document.getElementById('increment-score-container');
     scoreContainer.style.display = 'inline-block';
-    
     charades.style.display = 'none';
-
 
     html = "";
     scoreContainer.innerHTML = "";
@@ -246,8 +225,6 @@ socket.on('scores-to-upvote', function(scores, names) {
     scoreContainer.innerHTML = html;
 
     var name = document.getElementById('my-user').value;
-    // socket.emit('select-whose-turn', room, name);
-    // document.getElementById('increment-score').style.display = 'none';
 });
 
 function scoreIncremented(name) {
@@ -270,10 +247,8 @@ function newCard() {
 function startGame() {
     console.log("It's happening");
     var name = document.getElementById('my-user').value;
-
     socket.emit('select-whose-turn', room, name);
     document.getElementById('start-game').style.display = 'none';
-
 }
 
 function toSentenceCase(text) {
