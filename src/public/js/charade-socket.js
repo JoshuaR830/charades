@@ -141,7 +141,26 @@ socket.on('valid-password', function(name) {
     hideLogin(name);
 });
 
+
+// function displayScoresToUpvote(scores, names) {
+//     html = "";
+//     scoreContainer = document.getElementById('score-container');
+//     scoreContainer.innerHTML = "";
+
+//     charades.style.display = 'none';
+//     scoreContainer.style.display = 'inline-block';
+
+//     for(var i = 0; i < names.length; i ++) {
+//         var name = names[i];
+//         var score = scores[name];
+//         html += `<div class="score-row" onclick="scoreIncremented()"><div class="medal other-medal"></div><div class="other-place score-place"><div class="score-name">${name}</div><div class="score-circle other-circle">${score}</div></div></div>`
+//     }
+//     scoreContainer.innerHTML = html;
+// }
+
 function showWinners(scores, names) {
+    var scoreContainer = document.getElementById('increment-score-container');
+    scoreContainer.style.display = 'none';
     document.getElementById('surface-subtitle').innerText = scoreSubtitle;
 
     scoreContainer = document.getElementById('score-container');
@@ -205,11 +224,37 @@ function submitUserName() {
 function revealAnswer() {
     console.log("Revealed");
     socket.emit('user-revealed-answer', room);
-    document.getElementById('increment-score').style.display = 'inline-block';
+    // document.getElementById('increment-score').style.display = 'inline-block';
     document.getElementById('reveal-button').style.display = 'none';
 }
 
-function scoreIncremented() {
+socket.on('scores-to-upvote', function(scores, names) {
+    var scoreContainer = document.getElementById('increment-score-container');
+    scoreContainer.style.display = 'inline-block';
+    
+    charades.style.display = 'none';
+
+
+    html = "";
+    scoreContainer.innerHTML = "";
+    names.sort();
+    for(var i = 0; i < names.length; i ++) {
+        var name = names[i];
+        var score = scores[name];
+        html += `<div class="score-row increment-button" onclick="scoreIncremented(` + `'${name.trim()}'` + `)"><div class="other-place score-place"><div class="score-name">${name}</div><div class="score-circle other-circle">${score}</div></div></div>`
+    }
+    scoreContainer.innerHTML = html;
+
+    var name = document.getElementById('my-user').value;
+    socket.emit('select-whose-turn', room, name);
+    // document.getElementById('increment-score').style.display = 'none';
+});
+
+function scoreIncremented(name) {
+    incrementScore(name);
+    var scoreContainer = document.getElementById('increment-score-container');
+    charades.style.display = 'inline-block';
+    scoreContainer.style.display = 'none';
     var name = document.getElementById('my-user').value;
     socket.emit('select-whose-turn', room, name);
     document.getElementById('increment-score').style.display = 'none';

@@ -78,6 +78,18 @@ body {
     display: block;
 }
 
+.increment-score-container {
+    display: none;
+    width: 100%;
+    max-width: 300px;
+}
+
+.increment-button:hover {
+    cursor: pointer;
+    box-shadow: 0 0 16px var(--secondary); 
+    /* background-color: var(--secondary-variant); */
+}
+
 .score {
     color: var(--text-color);
     width: 70px;
@@ -149,6 +161,10 @@ body {
     }
 
     .charades-container {
+        max-width: 800px;
+    }
+
+    .increment-score-container {
         max-width: 800px;
     }
 }

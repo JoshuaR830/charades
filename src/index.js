@@ -163,6 +163,7 @@ io.on('connection', function(socket) {
 
     socket.on('user-revealed-answer', function(id) {
         console.log(`answer ${answer}`);
+        socket.emit('scores-to-upvote', rooms[id].scores, rooms[id].names);
         socket.broadcast.to(id).emit('reveal-answer', answer);
     });
 
