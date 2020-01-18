@@ -29,11 +29,14 @@
                 
             </div>
         </div>
-        <div class="controls content-box">
-            <div id="start-game" class="button request-card" onclick="startGame()">Start</div>
-            <div id="increment-score" class="button request-card" style="display: none;" onclick="scoreIncremented()">Increment</div>
-            <div id="reveal-button" class="button" onclick="revealAnswer()">Reveal</div>
-        </div>
+        <!-- <div class="controls content-box"> -->
+            <!-- <div id="start-game" class="button request-card" onclick="startGame()">Start</div> -->
+            <!-- <div id="increment-score" class="button request-card" style="display: none;" onclick="scoreIncremented()">Increment</div> -->
+            <!-- <div id="reveal-button" class="button" onclick="revealAnswer()">Reveal</div> -->
+        <!-- </div> -->
+
+        <div id="start-game" class="floating-button" onclick="startGame()"><svg xmlns="http://www.w3.org/2000/svg" class="image-size" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></div>
+        <div id="reveal-button" class="floating-button" onclick="revealAnswer()"><svg xmlns="http://www.w3.org/2000/svg" class="image-size" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></div>
     </div>
     <div id="increment-score-container" class="increment-score-container"></div>
     <div id="score-container" class="score-container"></div>

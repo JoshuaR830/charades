@@ -66,6 +66,19 @@ body {
     display: none;
 }
 
+.floating-button {
+    width: 56px;
+    height: 56px;
+    margin-top: -36px;
+    border-radius: 50%;
+    position: relative;
+    float: right;
+    background-color: var(--accent-color);
+    fill: var(--text-color);
+    padding: 8px;
+    box-sizing: border-box;
+}
+
 .category-container {
     color: var(--text-color);
     width: 100%;
