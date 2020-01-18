@@ -246,7 +246,7 @@ socket.on('scores-to-upvote', function(scores, names) {
     scoreContainer.innerHTML = html;
 
     var name = document.getElementById('my-user').value;
-    socket.emit('select-whose-turn', room, name);
+    // socket.emit('select-whose-turn', room, name);
     // document.getElementById('increment-score').style.display = 'none';
 });
 
