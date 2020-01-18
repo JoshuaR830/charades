@@ -38,20 +38,45 @@ function changeContent() {
 }
 
 function displayPlayers(scores, players) {
-    var playerContainer = document.getElementById('player-container');
-    playerContainer.innerHTML = "";
+    var settingsScoreContainer = document.getElementById('settings-scores-container');
+    var playerContainer = document.getElementById('backdrop-scores-container');
+    settingsScoreContainer.style.display = 'inline-block';
     console.log("Hello");
+    var myPlayer = document.getElementById('my-user').value;
+    playerContainer.innerHTML = "";
+    
     for(i = 0; i < players.length; i ++) {
-        score = scores[players[i]];
+        if(i === 0)
+        {
+            console.log('Your player');
+            var div = document.createElement('div');
+            div.classList.add("your-backdrop-score");
+            div.onclick = function () {
+                console.log(myPlayer);
+                incrementScore(myPlayer);
+            }
+            div.innerHTML = `<div class="your-backdrop-score-circle">${scores[myPlayer]}</div><div class="your-backdrop-score-text">${myPlayer}</div>`
+            playerContainer.appendChild(div);
+        }
+        
         let currentPlayer = players[i]
+        if(myPlayer === currentPlayer) {
+            console.log("Skipped");
+            continue;
+        }
+
+        score = scores[players[i]];
         var div = document.createElement('div');
-        div.classList.add("score");
+        div.classList.add("backdrop-score");
+        
+        
+        div.innerHTML = `<div class="backdrop-score-circle">${score}</div><div class="backdrop-score-text">${currentPlayer}</div>`;
+
         console.log(currentPlayer);
         div.onclick = function () {
             console.log(currentPlayer);
             incrementScore(currentPlayer);
         }
-        div.innerHTML = `<span class="score-text">${score}</span><br>${players[i].split(" ")[0]}`;
         playerContainer.appendChild(div);
     }
 
