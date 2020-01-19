@@ -15,6 +15,9 @@ function Room(code, password) {
     this.categories = initialCategories.slice();
     this.charades = initialCharades.slice();
     this.answer;
+    this.currentTurn;
+    this.started = false;
+    this.category;
 }
 
 const winningScore = 5;
@@ -91,6 +94,7 @@ function selectCharade(id) {
     var charadeToSelect = (Math.floor(Math.random() * 10) % numCharades);
 
     answer = charades[categoryToSelect][charadeToSelect];
+    rooms[id].answer = answer;
 
     charades[categoryToSelect].splice(charadeToSelect, 1);
     if(numCategories > 0) {
@@ -171,9 +175,10 @@ io.on('connection', function(socket) {
     })
 
     socket.on('user-revealed-answer', function(id) {
+        rooms[id].revealed = true;
         console.log(`answer ${answer}`);
         socket.emit('scores-to-upvote', rooms[id].scores, rooms[id].names);
-        socket.broadcast.to(id).emit('reveal-answer', answer);
+        socket.broadcast.to(id).emit('reveal-answer', answer, rooms[id].currentTurn);
     });
 
     socket.on('select-whose-turn', function(id, name) {
@@ -197,6 +202,9 @@ io.on('connection', function(socket) {
 
         // console.log(candidates);
 
+
+        rooms[id].started = true;
+        rooms[id].revealed = false;
         if(names.length > 2) {
             var weightedList = [];
             for(var i = 0; i < names.length; i++) {
@@ -233,7 +241,7 @@ io.on('connection', function(socket) {
         }
 
         console.log("Selected >>>>>> " + nameSelected);
-
+        rooms[id].currentTurn = nameSelected;
         console.log("New");
         response = selectCharade(id);
         if(response == [null, null]) {
@@ -244,10 +252,37 @@ io.on('connection', function(socket) {
         console.log(answer);
         console.log(`It's ${nameSelected}'s turn`);
         socket.emit('new-card', nameSelected, response);
+        rooms[id].category = response[1];
         socket.emit('set-colour', response[1]);
         socket.broadcast.to(id).emit('set-colour', response[1]);
         socket.broadcast.to(id).emit('new-card', nameSelected, response);
-    })
+    });
+
+    socket.on('update', function (id, name) {
+        console.log("UPDATE ME");
+        var room = rooms[id];
+
+        console.log(room.started);
+
+        if(!room.started) {
+            return;
+        } 
+    
+        console.log(room.currentTurn);
+        console.log(room.answer);
+        console.log(room.category);
+        console.log(room.scores);
+        console.log(room.names);
+        console.log(room.revealed);
+        socket.emit('new-card', room.currentTurn, [room.answer, room.category]);
+        socket.emit('set-colour', room.category);
+        // socket.emit('load-score-data', room.scores, room.names);
+    
+        if (room.revealed && name != room.currentTurn) {
+            socket.emit('reveal-answer', room.answer);
+        }
+    });
+
 });
 
 app.get('/', function(req, res) { 

@@ -164,6 +164,15 @@ body {
     cursor: pointer;
 }
 
+.sync-container {
+    display: none;
+    padding: 16px;
+    border-bottom: 1px solid var(--secondary);
+    width: auto;
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
 
 @media only screen and (min-width: 600px) {
     .container {

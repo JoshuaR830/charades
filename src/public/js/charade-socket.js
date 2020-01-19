@@ -9,11 +9,18 @@ var winner;
 
 var yourCharade;
 
-socket.on('reveal-answer', function(answer) {
+socket.on('reveal-answer', function(answer, name) {
     yourCharade = answer;
     console.log("Show");
     dissapear();
     setTimeout(appear, 500);
+    var card = document.getElementById('charade-card');
+
+    var title = card.querySelector('.card-title');
+    var body = card.querySelector('.body');
+
+    title.innerText = `${toSentenceCase(answer)}`;
+    body.innerText = `${toSentenceCase(name)} was acting like ${answer}`;
 });
 
 function myCharade(charade) {
@@ -26,6 +33,7 @@ function myCharade(charade) {
     setTimeout(appear, 500);
     document.getElementById('start-game').style.display = 'none';
     document.getElementById('reveal-button').style.display = 'inline-block';
+    changeContent();
 }
 
 socket.on('new-card', function(name, charade) {
@@ -268,6 +276,13 @@ function hideLogin(name) {
     charades.style.display = 'inline-block';
     document.getElementById('my-user').value = name;
     document.getElementById('surface-subtitle').innerText = charadesSubtitle;
+    syncWithServer();
+}
+
+function syncWithServer() {
+    document.getElementById("sync-container").style.display = 'block';
+    var name = document.getElementById('my-user').value;
+    socket.emit('update', room, name);
 }
 
 function submitUserName() {

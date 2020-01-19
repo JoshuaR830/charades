@@ -12,7 +12,7 @@ function onCardLoad() {
 }
 
 function appear() {
-    changeContent();
+    // changeContent();
     var card = this.document.getElementById('charade-card');
     card.classList.remove('dissapear');
     card.classList.add('appear');
