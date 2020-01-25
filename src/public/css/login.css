@@ -1,3 +1,25 @@
+.login-floating-button {
+    width: 56px;
+    height: 56px;
+    margin-top: 0px;
+    border-radius: 50%;
+    position: relative;
+    background-color: var(--accent-color);
+    fill: var(--text-color);
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.edit-login {
+    float: left;
+    display: block;
+}
+
+.submit-login {
+    float: right;
+    display: block;
+}
+
 .login-container {
     margin: 16px;
     padding: 16px;

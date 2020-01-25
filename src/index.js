@@ -137,14 +137,18 @@ io.on('connection', function(socket) {
         }
     });
 
-    socket.on('increment-score', function(id, name) {
+    socket.on('increment-score', function(id, name, increment=true) {
         console.log(rooms[id]);
         var scores = rooms[id].scores;
         var sortedScores = rooms[id].sortedScores;
         var names = rooms[id].names;
         var winningScores = rooms[id].winningScore;
         console.log(`${name} needs their score incremented`);
-        scores[name] += 1;
+        if(increment) {
+            scores[name] += 1;
+        } else {
+            scores[name] -= 1;
+        }
         socket.emit('load-score-data', scores, names);
         socket.broadcast.to(id).emit('load-score-data', scores, names);
 

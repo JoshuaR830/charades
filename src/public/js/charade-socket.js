@@ -76,6 +76,10 @@ function displayPlayers(scores, players) {
                 console.log(myPlayer);
                 incrementScore(myPlayer);
             }
+            div.oncontextmenu = function () {
+                console.log(myPlayer);
+                decrementScore(myPlayer);
+            }
             div.innerHTML = `<div class="your-backdrop-score-circle">${scores[myPlayer]}</div><div class="your-backdrop-score-text">${myPlayer}</div>`
             playerContainer.appendChild(div);
         }
@@ -93,10 +97,15 @@ function displayPlayers(scores, players) {
         div.innerHTML = `<div class="backdrop-score-circle">${score}</div><div class="backdrop-score-text">${currentPlayer}</div>`;
 
         console.log(currentPlayer);
-        div.onclick = function () {
-            console.log(currentPlayer);
-            incrementScore(currentPlayer);
-        }
+        div.addEventListener('click', function (event) {
+            console.log(event.button);
+            if (event.button === 0) {
+                incrementScore(currentPlayer);
+            }
+            if(event.button === 2) {
+                decrementScore(currentPlayer);
+            }
+        });
         playerContainer.appendChild(div);
     }
 }
@@ -106,15 +115,73 @@ function incrementScore(name) {
     socket.emit("increment-score", room, name);
 }
 
+function decrementScore(name) {
+    socket.emit("increment-score", room, name, false);
+}
+
 function onSocketLoad() {
+    console.log(getCookie("replayCharades"));
     login = document.getElementById('login');
     charades = document.getElementById('charades');
     winner = document.getElementById('winner');
+    loadLoginCookies();
+    if(getCookie("replayCharades") === "true") {
+        submitUserName();
+        document.cookie = "replayCharades=false";
+    }
     document.getElementById('name-input').focus();
-    document.getElementById('login-form').addEventListener('submit', function(event) {
+    document.getElementById('login-button').addEventListener('click', function(event) {
+        console.log("Clickeed login");
         event.preventDefault();
         submitUserName();
     });
+    document.getElementById('edit-login-button').addEventListener('click', editLogin);
+}
+
+function editLogin() {
+    document.getElementById('edit-login-button').classList.add('hidden');
+
+    console.log("Hello everyone");
+    document.getElementById('name-input').style.display = "inline-block";
+    document.getElementById('room-input').style.display = "inline-block";
+    document.getElementById('password-input').style.display = "inline-block";
+    var subtitles = document.querySelectorAll(".login-subtitle");
+
+    document.getElementById('login-message').textContent = `To play as a group you will all need to enter the same group name and password.`;
+    
+    subtitles.forEach(function(element) {
+        element.style.display = "inline-block";
+    });
+}
+
+function loadLoginCookies() {
+    // var userName = document.cookie = "userName=";
+    // var groupName = document.cookie = "groupName=";
+    // var groupPassword = document.cookie = "groupPassword=";
+
+    var userName = getCookie("userName");
+    var groupName = getCookie("groupName");
+    var groupPassword = getCookie("groupPassword");
+
+    var nameInput = document.getElementById('name-input');
+    var groupNameInput = document.getElementById('room-input');
+    var groupPasswordInput = document.getElementById('password-input');
+    
+    nameInput.value = userName;
+    groupNameInput.value = groupName;
+    groupPasswordInput.value = groupPassword;
+
+    if(userName != "" && groupName != "" && groupPassword != "") {
+        document.getElementById('edit-login-button').classList.remove('hidden');
+        nameInput.style.display = "none";
+        groupNameInput.style.display = "none";
+        groupPasswordInput.style.display = "none";
+        var subtitles = document.querySelectorAll(".login-subtitle");
+        subtitles.forEach(function(element) {
+            element.style.display = "none";
+            document.getElementById('login-message').textContent = `You're all set ${userName}, you'll be joining group ${groupName}, to change, just press the edit button.`;
+        });
+    }
 }
 
 socket.on('load-score-data', function(scores, names) {
@@ -135,6 +202,13 @@ socket.on('valid-password', function(name) {
     document.getElementById('password-input').classList.remove('error');
     hideLogin(name);
 });
+
+function hello() {
+    console.log("Hello");
+    document.cookie = "replayCharades=true"
+    document.location.reload();
+
+}
 
 function showWinners(scores, names) {
     var scoreContainer = document.getElementById('increment-score-container');
@@ -184,6 +258,7 @@ function showWinners(scores, names) {
 
         html += `<div class="score-row"><div class="medal ${place}-medal">${position}</div><div class="${place}-place score-place"><div class="score-name">${name}</div><div class="score-circle ${place}-circle">${score}</div></div></div>`
     }
+    html += `<div class="button" onclick="hello()">Retry<div></div>`;
     scoreContainer.innerHTML = html;
 }
 
@@ -199,6 +274,10 @@ function submitUserName() {
     var name = document.getElementById('name-input').value;
     room = document.getElementById('room-input').value;
     var password = document.getElementById('password-input').value;
+
+    document.cookie = `userName=${name}`;
+    document.cookie = `groupName=${room}`;
+    document.cookie = `groupPassword=${password}`;
 
     socket.emit('new-user-name', name, room, password);
 }
