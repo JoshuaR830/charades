@@ -122,7 +122,10 @@ body {
 }
 
 .highlight-word {
-    color: var(--border-color);
+    height: 24px;
+    width: 24px;
+    line-height: 24px;
+    fill: var(--on-surface);
 }
 
 .player-container {
