@@ -19,9 +19,11 @@ function Room(code, password) {
 
 const winningScore = 5;
 
-var initialCategories = ["christmas", "sport", "france", "technology", "animals", "books", "countries", "politics"]
+// var initialCategories = ["christmas", "sport", "france", "technology", "animals", "books", "countries", "politics"]
+var initialCategories = ["easter", "sport", "france", "technology", "animals", "books", "countries", "politics"]
+// ["Christmas tree", "Snowball", "Box of Roses", "Santa", "Rudolph", "Box of Celebrations", "Tinsel", "Bauble", "Lights", "Present", "Mince pie", "Christmas Pudding", "Carols", "Christmas card", "Christmas Wreath", "Chestnuts roasting on an open fire", "Turkey", "Sage and onion stuffing"], 
 var initialCharades = [
-    ["Christmas tree", "Snowball", "Box of Roses", "Santa", "Rudolph", "Box of Celebrations", "Tinsel", "Bauble", "Lights", "Present", "Mince pie", "Christmas Pudding", "Carols", "Christmas card", "Christmas Wreath", "Chestnuts roasting on an open fire", "Turkey", "Sage and onion stuffing"], 
+    ["Easter", "Easter Egg", "Chick", "Donkey", "Palm branch", "Cheering crowds", "Table flip", "Tomb", "Gardener", "Disciple"],
     ["Football", "Tennis", "Snooker", "Badminton", "Squash", "Hockey", "Golf", "Baseball", "Volleyball", "Swimming", "Skiing", "Skateboarding", "Hiking", "Fishing", "Rifle Shooting", "Clay Pigeon Shooting", "Archery", "Darts", "Gymnastics", "Rugby", "Ice hockey", "American football", "Cricket", "Lacrosse", "Polo (horse)", "Jousting", "Quidich", "Water polo (no horse - obviously)", "Fencing", "Dressage", "Show jumping (horse)", "Underwater Hockey", "Air hockey", "Paper plane throwing"], 
     ["Baguette", "Eiffel Tower", "Croissant", "Louvre", "Mont St Michel", "Arc du Triomphe", "Moulin Rouge", "Beret", "Salted butter", "Breton top (stripey long-sleeved tshirt)", "Champagne", "the French flag"],
     ["Computer", "Phone", "Robot", "Computer mouse", "Computer keyboard", "Headphones", "MP3 player", "Facebook", "Texting", "Camera", "TV", "Kindle", "App (application)"],
@@ -58,6 +60,9 @@ function displayScoreBoard(id) {
             }
         }
     }
+
+    console.log("Sorted");
+    console.log(sortedScores);
 }
 
 function selectCharade(id) {
@@ -176,6 +181,22 @@ io.on('connection', function(socket) {
         var sortedScores = rooms[id].sortedScores;
         var scores = rooms[id].scores;
 
+        var isDrawing = false;
+
+        console.log("scores:")
+        
+        console.log(scores);
+        
+        orderedValues = Object.values(scores);
+
+        orderedValues.sort().reverse();
+
+        // var candidates = {};
+
+
+
+        // console.log(candidates);
+
         if(names.length > 2) {
             var weightedList = [];
             for(var i = 0; i < names.length; i++) {
@@ -185,13 +206,26 @@ io.on('connection', function(socket) {
                 }
             }
 
+            // This says that if the people in the lead are drawing then pick one of the people who are not in the lead
+            if(orderedValues[0] === (rooms[id].winningScore - 1) && orderedValues[1] === (rooms[id].winningScore - 1)) {
+                isDrawing = true;
+                weightedList = [];
+                for(var i = 0; i < orderedValues.length; i++) {
+                    if (scores[names[i]] != (winningScore - 1))
+                    {
+                        weightedList.push(names[i]);
+                    }
+                }
+            }
+
             console.log(weightedList);
+
 
             do {
                     var selection = (Math.floor(Math.random() * 10) % weightedList.length);
                     var nameSelected = weightedList[selection];
                     
-            } while(nameSelected === name);
+            } while(nameSelected === name && isDrawing === false);
         } else {
             console.log("Small game");
             var selection = (Math.floor(Math.random() * 10) % names.length);

@@ -167,11 +167,11 @@ function loadLoginCookies() {
     var groupNameInput = document.getElementById('room-input');
     var groupPasswordInput = document.getElementById('password-input');
     
-    nameInput.value = userName;
-    groupNameInput.value = groupName;
-    groupPasswordInput.value = groupPassword;
-
-    if(userName != "" && groupName != "" && groupPassword != "") {
+    if(userName != undefined && groupName != undefined && groupPassword != undefined) {
+        console.log("Oops");
+        nameInput.value = userName;
+        groupNameInput.value = groupName;
+        groupPasswordInput.value = groupPassword;
         document.getElementById('edit-login-button').classList.remove('hidden');
         nameInput.style.display = "none";
         groupNameInput.style.display = "none";
@@ -258,7 +258,7 @@ function showWinners(scores, names) {
 
         html += `<div class="score-row"><div class="medal ${place}-medal">${position}</div><div class="${place}-place score-place"><div class="score-name">${name}</div><div class="score-circle ${place}-circle">${score}</div></div></div>`
     }
-    html += `<div class="button" onclick="hello()">Retry<div></div>`;
+    html += `<div class="button" onclick="hello()">Again<div></div>`;
     scoreContainer.innerHTML = html;
 }
 
@@ -344,6 +344,11 @@ function setColours() {
         root.style.setProperty("--accent-color", "rgb(209, 19, 32)");
         root.style.setProperty("--border-color", "rgb(107, 20, 26)");
         root.style.setProperty("--text-color", "rgb(196, 147, 150)");
+    } else if(category === "easter") {
+        root.style.setProperty("--card-color", "rgb(245, 236, 66)");
+        root.style.setProperty("--accent-color", "rgb(237, 211, 64)");
+        root.style.setProperty("--border-color", "rgb(237, 211, 64)");
+        root.style.setProperty("--text-color", "rgb(177, 64, 237)");
     } else if (category === "sport") {
         root.style.setProperty("--card-color", "rgb(18, 102, 219)");
         root.style.setProperty("--accent-color", "rgb(87, 126, 181)");
@@ -385,6 +390,8 @@ function setColours() {
 function setLightColour() {
     if(category === "christmas") {
         changeLightColour(181, 5, 17);
+    } else if (category === "easter") {
+        changeLightColour(245, 236, 66);
     } else if (category === "sport") {
         changeLightColour(18, 102, 219);
     } else if (category === "france") {
