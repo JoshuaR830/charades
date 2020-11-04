@@ -5,6 +5,8 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 var bodyParser = require('body-parser');
 
+const PORT = process.env.PORT || 5001;
+
 function Room(code, password) {
     this.roomCode = code;
     this.password = password;
@@ -309,4 +311,4 @@ app.get('/subtitle', function(req, res) {
     res.sendFile(`${__dirname}/partials/subtitle.html`);
 });
 
-http.listen(8001, () => console.log('Listening on port 8001!'));
+http.listen(PORT, () => console.log(`Listening on port ${PORT}!`));
