@@ -38,10 +38,16 @@ const winningScore = 5;
 //     ["Brexit", "voting", "Boris Johnson", "Jeremy Corbyn", "Michael Gove", "Jacob Reese Mogg", "the houses of parliament", "Conservatives", "Labour", "Liberal Democrats", "SNP"]
 // ]
 
-var initialCategories = ["zoom"]
+var initialCategories = ["music", "plant", "cooking", "accessories", "creatures", "food?", "random other stuff"]
 
 var initialCharades = [
-    ["beacon", "bible", "stars", "elephant", "sun glasses", "flower", "tree", "Robin Hood", "bridge", "diamond", "triangle", "square", "firework", "camera", "duck"]
+    ["trumpet", "saxaphone", "keyboard", "piano", "guitar", "drums"],
+    ["flower", "tree"],
+    ["bread", "cake", "chopping", "peeling", "blending"],
+    ["hat", "headphones", "camera"],
+    ["elephant", "dog", "mouse", "duck", "butterfly", "monkey", "sun glasses"],
+    ["Lollipop", "Pancake"]
+    ["beacon", "bible", "stars", "Robin Hood", "diamond", "triangle", "square", "firework", "Yo-yo", "bridge", "boat"]
 ]
 
 if(debug) {

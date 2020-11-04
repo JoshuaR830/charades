@@ -354,17 +354,17 @@ function setColours() {
 
     document.getElementById("category").innerText = toSentenceCase(category);
 
-    if(category === "christmas") {
+    if(category === "christmas" || category === "music") {
         root.style.setProperty("--card-color", "rgb(181, 5, 17)");
         root.style.setProperty("--accent-color", "rgb(209, 19, 32)");
         root.style.setProperty("--border-color", "rgb(107, 20, 26)");
         root.style.setProperty("--text-color", "rgb(196, 147, 150)");
-    } else if(category === "easter") {
+    } else if(category === "easter" || category==="cooking") {
         root.style.setProperty("--card-color", "rgb(245, 236, 66)");
         root.style.setProperty("--accent-color", "rgb(237, 211, 64)");
         root.style.setProperty("--border-color", "rgb(237, 211, 64)");
         root.style.setProperty("--text-color", "rgb(177, 64, 237)");
-    } else if (category === "sport") {
+    } else if (category === "sport" || category === "accessories") {
         root.style.setProperty("--card-color", "rgb(18, 102, 219)");
         root.style.setProperty("--accent-color", "rgb(87, 126, 181)");
         root.style.setProperty("--border-color", "rgb(62, 86, 120)");
@@ -374,12 +374,12 @@ function setColours() {
         root.style.setProperty("--accent-color", "rgb(239, 65, 53)");
         root.style.setProperty("--border-color", "rgb(239, 65, 53)");
         root.style.setProperty("--text-color", "rgb(255, 255, 255)");
-    } else if (category === "technology") {
+    } else if (category === "technology" || cateogry === "food?") {
         root.style.setProperty("--card-color", "rgb(95, 24, 128)");
         root.style.setProperty("--accent-color", "rgb(143, 40, 191)");
         root.style.setProperty("--border-color", "rgb(110, 55, 135)");
         root.style.setProperty("--text-color", "rgb(255, 255, 255)");
-    } else if (category === "animals") {
+    } else if (category === "animals" || cateogry === "creatures") {
         root.style.setProperty("--card-color", "rgb(130, 87, 8)");
         root.style.setProperty("--accent-color", "rgb(219, 116, 13)");
         root.style.setProperty("--border-color", "rgb(184, 95, 7)");
@@ -389,7 +389,7 @@ function setColours() {
         root.style.setProperty("--accent-color", "rgb(14, 189, 199)");
         root.style.setProperty("--border-color", "rgb(23, 148, 156)");
         root.style.setProperty("--text-color", "rgb(20, 72, 156)");
-    } else if (category === "countries") {
+    } else if (category === "countries" || category === "plant") {
         root.style.setProperty("--card-color", "rgb(31, 135, 47)");
         root.style.setProperty("--accent-color", "rgb(52, 168, 70)");
         root.style.setProperty("--border-color", "rgb(81, 189, 98)");
