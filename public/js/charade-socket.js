@@ -138,8 +138,16 @@ function onSocketLoad() {
         document.cookie = "replayCharades=false";
     }
     document.getElementById('name-input').focus();
+
+    const url = new URL(window.location.href);
+    roomFromUrl = url.searchParams.get("rm");
+    passwordFromUrl = url.searchParams.get("pw");
+
+    document.getElementById('room-input').value = roomFromUrl;
+    document.getElementById('password-input').value = passwordFromUrl;
+
     document.getElementById('login-button').addEventListener('click', function(event) {
-        console.log("Clickeed login");
+        console.log("Clicked login");
         event.preventDefault();
         submitUserName();
     });
@@ -374,12 +382,12 @@ function setColours() {
         root.style.setProperty("--accent-color", "rgb(239, 65, 53)");
         root.style.setProperty("--border-color", "rgb(239, 65, 53)");
         root.style.setProperty("--text-color", "rgb(255, 255, 255)");
-    } else if (category === "technology" || cateogry === "food?") {
+    } else if (category === "technology" || category === "food?") {
         root.style.setProperty("--card-color", "rgb(95, 24, 128)");
         root.style.setProperty("--accent-color", "rgb(143, 40, 191)");
         root.style.setProperty("--border-color", "rgb(110, 55, 135)");
         root.style.setProperty("--text-color", "rgb(255, 255, 255)");
-    } else if (category === "animals" || cateogry === "creatures") {
+    } else if (category === "animals" || category === "creatures") {
         root.style.setProperty("--card-color", "rgb(130, 87, 8)");
         root.style.setProperty("--accent-color", "rgb(219, 116, 13)");
         root.style.setProperty("--border-color", "rgb(184, 95, 7)");
