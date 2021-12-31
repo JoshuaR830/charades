@@ -22,11 +22,12 @@ function Room(code, password) {
 
 const winningScore = 5;
 
-// var initialCategories = ["christmas", "sport", "france", "technology", "animals", "books", "countries", "politics"]
-var initialCategories = ["easter", "sport", "france", "technology", "animals", "books", "countries", "politics"]
+var initialCategories = ["christmas", "sport", "france", "technology", "animals", "books", "countries", "politics"]
+// var initialCategories = ["easter", "sport", "france", "technology", "animals", "books", "countries", "politics"]
 // ["Christmas tree", "Snowball", "Box of Roses", "Santa", "Rudolph", "Box of Celebrations", "Tinsel", "Bauble", "Lights", "Present", "Mince pie", "Christmas Pudding", "Carols", "Christmas card", "Christmas Wreath", "Chestnuts roasting on an open fire", "Turkey", "Sage and onion stuffing"], 
+// ["Easter", "Easter Egg", "Chick", "Donkey", "Palm branch", "Cheering crowds", "Table flip", "Tomb", "Gardener", "Disciple"],
 var initialCharades = [
-    ["Easter", "Easter Egg", "Chick", "Donkey", "Palm branch", "Cheering crowds", "Table flip", "Tomb", "Gardener", "Disciple"],
+    ["Christmas tree", "Snowball", "Box of Roses", "Santa", "Rudolph", "Box of Celebrations", "Tinsel", "Bauble", "Lights", "Present", "Mince pie", "Christmas Pudding", "Carols", "Christmas card", "Christmas Wreath", "Chestnuts roasting on an open fire", "Turkey", "Sage and onion stuffing"],
     ["Football", "Tennis", "Snooker", "Badminton", "Squash", "Hockey", "Golf", "Baseball", "Volleyball", "Swimming", "Skiing", "Skateboarding", "Hiking", "Fishing", "Rifle Shooting", "Clay Pigeon Shooting", "Archery", "Darts", "Gymnastics", "Rugby", "Ice hockey", "American football", "Cricket", "Lacrosse", "Polo (horse)", "Jousting", "Quidich", "Water polo (no horse - obviously)", "Fencing", "Dressage", "Show jumping (horse)", "Underwater Hockey", "Air hockey", "Paper plane throwing"], 
     ["Baguette", "Eiffel Tower", "Croissant", "Louvre", "Mont St Michel", "Arc du Triomphe", "Moulin Rouge", "Beret", "Salted butter", "Breton top (stripey long-sleeved tshirt)", "Champagne", "the French flag"],
     ["Computer", "Phone", "Robot", "Computer mouse", "Computer keyboard", "Headphones", "MP3 player", "Facebook", "Texting", "Camera", "TV", "Kindle", "App (application)"],
