@@ -268,6 +268,9 @@ io.on('connection', function(socket) {
         console.log("UPDATE ME");
         var room = rooms[id];
 
+        if (room === undefined || room === null)
+            return;
+
         console.log(room.started);
 
         if(!room.started) {

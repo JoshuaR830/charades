@@ -314,6 +314,15 @@ function revealAnswer() {
     document.getElementById('reveal-button').style.display = 'none';
 }
 
+socket.on('connect', function() {
+    console.log("Hello");
+
+    socket.on('disconnect', function() {
+        document.cookie ="replayCharades=true";
+        document.location.reload();
+    })
+})
+
 socket.on('scores-to-upvote', function(scores, names) {
     var scoreContainer = document.getElementById('increment-score-container');
     scoreContainer.style.display = 'inline-block';
