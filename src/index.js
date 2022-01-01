@@ -174,6 +174,7 @@ io.on('connection', function(socket) {
     })
 
     socket.on('play-again', function(id) {
+        console.log(`Delete room ${id}`);
         delete rooms[id];
         socket.emit('reload-to-play-again');
         socket.broadcast.to(id).emit('reload-to-play-again');
