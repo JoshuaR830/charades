@@ -139,7 +139,6 @@ function onSocketLoad() {
     }
     document.getElementById('name-input').focus();
     document.getElementById('login-button').addEventListener('click', function(event) {
-        console.log("Clickeed login");
         event.preventDefault();
         submitUserName();
     });
@@ -211,11 +210,13 @@ socket.on('valid-password', function(name) {
     hideLogin(name);
 });
 
-function hello() {
-    console.log("Hello");
-    document.cookie = "replayCharades=true"
+socket.on('reload-to-play-again', function() {
+    document.cookie = "replayCharades=true";
     document.location.reload();
+})
 
+function hello() {
+    socket.emit("play-again", room);
 }
 
 function showWinners(scores, names) {
@@ -283,6 +284,16 @@ function syncWithServer() {
     document.getElementById("sync-container").style.display = 'block';
     var name = document.getElementById('my-user').value;
     socket.emit('update', room, name);
+}
+
+function syncButtonPressed() {
+    console.log("Button pressed");
+    document.cookie = "replayCharades=true";
+    document.location.reload();
+}
+
+function disconnectFromServer() {
+    socket.disconnect();
 }
 
 function submitUserName() {

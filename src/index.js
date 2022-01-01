@@ -168,11 +168,15 @@ io.on('connection', function(socket) {
                 displayScoreBoard(id);
                 socket.emit('game-over', sortedScores, names);
                 socket.to(id).broadcast.emit('game-over', sortedScores, names);
-                socket.disconnect();
-                delete rooms[id];
                 break;
             }
         }
+    })
+
+    socket.on('play-again', function(id) {
+        delete rooms[id];
+        socket.emit('reload-to-play-again');
+        socket.broadcast.to(id).emit('reload-to-play-again');
     })
 
     socket.on('user-revealed-answer', function(id) {
@@ -277,13 +281,21 @@ io.on('connection', function(socket) {
         console.log(room.revealed);
         socket.emit('new-card', room.currentTurn, [room.answer, room.category]);
         socket.emit('set-colour', room.category);
-        // socket.emit('load-score-data', room.scores, room.names);
-    
+        socket.emit('load-score-data', room.scores, room.names);
+
         if (room.revealed && name != room.currentTurn) {
             socket.emit('reveal-answer', room.answer);
         }
-    });
 
+        for(i = 0; i < room.names.length; i++) {
+            if (room.scores[room.names[i]] >= winningScore){
+                console.log("Winning score");
+                displayScoreBoard(id);
+                socket.emit('game-over', room.sortedScores, room.names);
+                break;
+            }
+        }
+    });
 });
 
 app.get('/', function(req, res) { 
